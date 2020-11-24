@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 25.0f;
     public float jummpForce = 2.5f;
     public bool isOnGround = true;
+    public float health = 100.0f;
 
     private Rigidbody playerRb;
 
@@ -45,6 +46,11 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = true;
             speed = 50.0f;
+        }
+
+        if (collision.gameObject.CompareTag("Zombie"))
+        {
+            health -= 20;
         }
     }
 }
