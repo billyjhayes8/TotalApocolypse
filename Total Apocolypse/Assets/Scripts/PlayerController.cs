@@ -4,27 +4,36 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //Variables
     public float speed = 25.0f;
     public float jummpForce = 2.5f;
     public bool isOnGround = true;
     public float health = 100.0f;
 
     private Rigidbody playerRb;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        PlayerMovement();
+        //If the game is active, then the player can move. (used mainly before game starts)
+        if(gameManager.isGameActive == true)
+        {
+            PlayerMovement();
+        }
     }
 
+    //Player movement method - allows for full movement for the player as well as a jumping ability
     void PlayerMovement()
     {
+        //local variables used for movement direction
         float movementHorizontal = Input.GetAxis("Vertical");
         float movementVertical = Input.GetAxis("Horizontal");
 
@@ -32,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
         playerRb.AddForce(movement * speed * Time.deltaTime);
 
+        //code for player jumping ability, only when on the ground & player cannot move while in the air
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
             playerRb.AddForce(Vector3.up * jummpForce, ForceMode.Impulse);
@@ -40,6 +50,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //Collision detection - whether or not player is on ground + hits enemy so health can be updated
+    // +  when health is 0 then destroy player and end game
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -52,9 +64,10 @@ public class PlayerController : MonoBehaviour
         {
             health -= 20;
         }
-        if(health == 0)
+        if(health <= 0)
         {
             Destroy(gameObject);
+            gameManager.GameOver();
         }
     }
 }

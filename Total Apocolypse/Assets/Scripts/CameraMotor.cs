@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script is used for fixing the camera to the player, so it follows the player throughout the game
 public class CameraMotor : MonoBehaviour
 {
+    //Variables
     public GameObject target;
     public float xOffset;
     public float yOffset;
