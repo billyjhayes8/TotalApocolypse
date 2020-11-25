@@ -52,5 +52,9 @@ public class PlayerController : MonoBehaviour
         {
             health -= 20;
         }
+        if(health == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

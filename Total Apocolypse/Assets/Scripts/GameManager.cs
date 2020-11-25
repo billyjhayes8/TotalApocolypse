@@ -12,17 +12,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public float health = 100.0f;
     public bool isGameActive;
-    public GameObject startPanel;
 
-    public void NewGame()
+    private void Start()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        startPanel.gameObject.SetActive(false);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+       
     }
 
     // Update is called once per frame
