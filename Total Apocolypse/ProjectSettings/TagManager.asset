@@ -5,7 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Win Zone
+  - Zombie Vertical
+  - Zombie Horizontal
   - Zombie
+  - Crawler
+  - Dark Entrance
+  - Left Wall
   layers:
   - Default
   - TransparentFX

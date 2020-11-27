@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //Variables
-    public float speed = 25.0f;
+    public float speed = 50.0f;
     public float jummpForce = 2.5f;
     public bool isOnGround = true;
     public float health = 100.0f;
+
+    //public Animator anim;
 
     private Rigidbody playerRb;
     private GameManager gameManager;
@@ -17,7 +19,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+        //anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,6 +33,18 @@ public class PlayerController : MonoBehaviour
         {
             PlayerMovement();
         }
+
+        /*
+        if (Input.GetKey("w") && Input.GetKey("a") && Input.GetKey("s") && Input.GetKey("d"))
+        {
+            anim.SetBool("isRunning", true);
+        }
+        else
+        {
+            anim.SetBool("isRunning", false);
+        }
+        */
+
     }
 
     //Player movement method - allows for full movement for the player as well as a jumping ability
@@ -60,14 +77,30 @@ public class PlayerController : MonoBehaviour
             speed = 50.0f;
         }
 
-        if (collision.gameObject.CompareTag("Zombie"))
+        if (collision.gameObject.CompareTag("Zombie Vertical") || collision.gameObject.CompareTag("Zombie Horizontal"))
+        {
+            health -= 10;
+        }
+
+        if (collision.gameObject.CompareTag("Crawler"))
+        {
+            health -= 15;
+        }
+
+        if (collision.gameObject.CompareTag("Fire"))
         {
             health -= 20;
         }
-        if(health <= 0)
+
+        if(health <= 0 || collision.gameObject.CompareTag("Dark Entrance"))
         {
             Destroy(gameObject);
             gameManager.GameOver();
+        }
+
+        if(collision.gameObject.CompareTag("Win Zone"))
+        {
+            gameManager.WinGame();
         }
     }
 }
